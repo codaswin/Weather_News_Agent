@@ -14,21 +14,23 @@ def get_weather_news(city: str) -> str:
     return "\n".join(f"- [{h['date'][:10]}] {h['title']}: {h['body']}" for h in hits)
 
 
-agent = AssistantAgent(
-    "weather_news",
-    # Local free model; swap for OpenAIChatCompletionClient(model="gpt-4o-mini") if you have a key.
-    model_client=OllamaChatCompletionClient(model="qwen2.5:1.5b"),
-    tools=[get_weather_news],
-    # On: the model reads the tool result and writes the 3-line reply.
-    # Off: the agent would print the raw tool output (the news list) instead.
-    reflect_on_tool_use=True,
-    system_message="Call get_weather_news for the city the user gives. Reply in exactly 3 short lines separated by newlines: 1) conditions, 2) temperature, 3) a tip.",
-)
+def make_agent():
+    return AssistantAgent(
+        "weather_news",
+        # Local free model; swap for OpenAIChatCompletionClient(model="gpt-4o-mini") if you have a key.
+        model_client=OllamaChatCompletionClient(model="qwen2.5:1.5b"),
+        tools=[get_weather_news],
+        # On: the model reads the tool result and writes the 3-line reply.
+        # Off: the agent would print the raw tool output (the news list) instead.
+        reflect_on_tool_use=True,
+        system_message="Call get_weather_news for the city the user gives. Reply in exactly 3 short lines separated by newlines: 1) conditions, 2) temperature, 3) a tip.",
+    )
 
 
 async def main():
     city = input("City: ")
-    await Console(agent.run_stream(task=city))
+    await Console(make_agent().run_stream(task=city))
 
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
