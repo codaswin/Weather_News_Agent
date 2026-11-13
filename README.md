@@ -4,7 +4,9 @@ An [AutoGen](https://microsoft.github.io/autogen/) agent that takes a city, sear
 
 ![Weather News Agent web UI showing a 3-line reply for Chennai](assets/screenshot.png)
 
-**Screencast:** [watch the agent running](assets/screencast.mp4) (`assets/screencast.mp4`)
+![Screencast of the agent running](assets/screencast.gif)
+
+[Full-quality video](assets/screencast.mp4)
 
 ## How it works
 
